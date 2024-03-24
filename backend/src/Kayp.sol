@@ -4,6 +4,10 @@ pragma solidity ^0.8.24;
 import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import {Strings} from "../../utils/Strings.sol";
 
+/// @title Kayp is a smart contract to create a NFT from a Bill of Lading
+/// @dev The contract is based on the ERC721 standard provided by OpenZeppelin
+/// @author ddiieeggoo
+
 contract Kayp is ERC721 {
 
     using Strings for uint256;
@@ -14,6 +18,7 @@ contract Kayp is ERC721 {
     uint public dateOfIssue;
     bytes32 public hashedBillOfLading;
 
+/// @notice Structure of a Bill of Lading with all the necessary informations
     struct BillOfLading {
         uint billOfLadingID;
         uint tripID;
@@ -34,6 +39,8 @@ contract Kayp is ERC721 {
         uint freightAmount;
     }
 
+/// @notice this function will retrieve inputs from the user and create a new hash of a Bill of Lading
+/// @param essential data to create a new Bill of Lading
     function editNewBLWithHash(string calldata _consignor, string calldata _oceabVessel, string calldata _portOfLoading, string calldata _portOfDischarge, uint calldata _HScode, uint calldata _numberOfPackages, string calldata kindOfPackages, string calldata _descriptionOfGoods, uint calldata _grossWeight, uint calldata _measurement, uint calldata _containerCount, bool calldata _isCoveredByInsurance, string calldata _placeOfIssue, uint calldata _dateOfIssue, uint calldata freightAmount) internal returns(bytes32) {
       BillOfLading memory billoflading;
       billoflading.billOfLadingID ++;
@@ -57,26 +64,32 @@ contract Kayp is ERC721 {
       return hashedBillOfLading;
     }
 
+/// @notice this function inherit _safeMint from ERC721 to create a new NFT with data
     function mint() external {
       nftId ++;
       _safeMint(msg.sender, nftId, hashedBillOfLading);
     }
 
+/// @notice this function inherit _transfer from ERC721 to transfer a NFT from an address to another
+/// @param from the address of the sender, to the address of the receiver, tokenId the id of the NFT
     function transferNft(address from, address to, uint256 tokenId) external {
       _transfer(from, to, tokenId);
     }
 
+/// @notice this function will retrieve the Bill of Lading datas from the hash bounded to a given NFT
     function retrieveBLFromNFT (uint _nftId) private returns(string memory) {
       bytes memory hashedBillOfLading = data[_nftId];
       return abi.decode(hashedBillOfLading, (string));
     }
 
-    function withdraw (uint amount, address receiver) {
-      // ecrire un withdraw au cas où de l'argent est bloquée sur le smart contract
+/// @notice this function is a security measure to avoid locking funds in the smart contract
+    function withdraw (uint amount, address receiver) external onlyOwner {
+      (bool received, ) = msg.sender.call{value: _amount}("");
+      require(received, "An error occured");
     }
 
-    fallback()  {
-      // ecrire le fallback en cas de fonds reçus sur le smart contract
+/// @notice this function is a fallback in case of funds received on the smart contract
+    fallback() external payable {
     }
 
 }
