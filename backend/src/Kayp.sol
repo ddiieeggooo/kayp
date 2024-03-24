@@ -12,6 +12,7 @@ contract Kayp is ERC721 {
     uint public BillOfLadingID;
     uint public tripID;
     uint public dateOfIssue;
+    bytes32 public hashedBillOfLading;
 
     struct BillOfLading {
         uint billOfLadingID;
@@ -52,19 +53,22 @@ contract Kayp is ERC721 {
       billoflading.placeOfIssue = _placeOfIssue;
       billoflading.dateOfIssue = _dateOfIssue;
       billoflading.freightAmount = _freightAmount;
-      return keccak256(abi.encode(billoflading));
+      hashedBillOfLading = keccak256(abi.encode(billoflading));
+      return hashedBillOfLading;
     }
 
-    function mint(uint256 newNumber) external {
-      // le mint va créer le nft et va bound le hash de la struct à l'intérieur
+    function mint() external {
+      nftId ++;
+      _safeMint(msg.sender, nftId, hashedBillOfLading);
     }
 
-    function transferNft (uint _nftId) external {
-      // écrire la fonction pour transférer la propriété du nft
+    function transferNft(address from, address to, uint256 tokenId) external {
+      _transfer(from, to, tokenId);
     }
 
-    function retrieveBLFromNFT (uint _nftId) private {
-
+    function retrieveBLFromNFT (uint _nftId) private returns(string memory) {
+      bytes memory hashedBillOfLading = data[_nftId];
+      return abi.decode(hashedBillOfLading, (string));
     }
 
     function withdraw (uint amount, address receiver) {
