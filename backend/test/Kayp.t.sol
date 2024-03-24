@@ -38,4 +38,16 @@ contract KaypTest is Test {
         _Kayp = new Kayp();
     }
 
+
+    function test_expectEmit_HashOfDataCreated() public {
+        BillOfLading memory billoflading;
+        billoflading.billOfLadingID ++;
+        billoflading.tripID ++;
+        hashedBillOfLading = keccak256(abi.encode(billoflading));
+        emit _Kayp.HashOfDataCreated(billoflading);
+        _Kayp.editNewBLWithHash("consignorTest", "oceanVesselTest", "portOfLoadingTest", "portOfDischargeTest", 1234, 10, "kindOfPackagesTest", "descriptionOfGoodsTest", 100, 100, 10, true, "placeOfIssueTest", 24032024, 1000);
+        }
 }
+
+
+      //  assertEq(hashedBillOfLading, keccak256(abi.encode(billoflading)));

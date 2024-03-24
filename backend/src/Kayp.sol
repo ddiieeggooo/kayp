@@ -10,6 +10,7 @@ import {Strings} from "../../utils/Strings.sol";
 
 contract Kayp is ERC721 {
 
+    event HashOfDataCreated(bytes32 hashedBillOfLading);
     using Strings for uint256;
 
     uint public nftId;
@@ -61,6 +62,7 @@ contract Kayp is ERC721 {
       billoflading.dateOfIssue = _dateOfIssue;
       billoflading.freightAmount = _freightAmount;
       hashedBillOfLading = keccak256(abi.encode(billoflading));
+      emit HashOfDataCreated(hashedBillOfLading);
       return hashedBillOfLading;
     }
 
