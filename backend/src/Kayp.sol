@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.24;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import {Strings} from "../../utils/Strings.sol";
 
 contract Kayp is ERC721 {
