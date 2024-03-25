@@ -1,0 +1,33 @@
+// bytes32 public hashedBillOfLading;
+// mapping(uint => bytes32) private nftHashes;
+// mapping(uint => BillOfLading) private billOfLadings;
+
+
+// function mintNewBLWithHash(string calldata _consignor, string calldata _oceanVessel, string calldata _portOfLoading, string calldata _portOfDischarge, uint _HScode, uint _numberOfPackages, string calldata _kindOfPackages, string calldata _descriptionOfGoods, uint _grossWeight, uint _measurement, uint _containerCount, bool _isCoveredByInsurance, string calldata _placeOfIssue, uint _dateOfIssue, uint _freightAmount) external {
+
+      // billoflading.billOfLadingID ++;
+      // billoflading.tripID ++;
+      // billoflading.consignor = _consignor;
+      // billoflading.oceanVessel = _oceanVessel;
+      // billoflading.portOfLoading = _portOfLoading;
+      // billoflading.portOfDischarge = _portOfDischarge;
+      // billoflading.HScode = _HScode;
+      // billoflading.numberOfPackages = _numberOfPackages;
+      // billoflading.kindOfPackages = _kindOfPackages;
+      // billoflading.descriptionOfGoods = _descriptionOfGoods;
+      // billoflading.grossWeight = _grossWeight;
+      // billoflading.measurement = _measurement;
+      // billoflading.containerCount = _containerCount;
+      // billoflading.isCoveredByInsurance = _isCoveredByInsurance;
+      // billoflading.placeOfIssue = _placeOfIssue;
+      // billoflading.dateOfIssue = _dateOfIssue;
+      // billoflading.freightAmount = _freightAmount;
+      // hashedBillOfLading = keccak256(abi.encode(billoflading));
+      // nftHashes[nftId] = hashedBillOfLading;
+
+
+/// @notice this function will retrieve the Bill of Lading datas from the hash bounded to a given NFT
+    // function retrieveBLFromNFT (uint _nftId) external returns(string memory) {
+    //   bytes32 _hashedBillOfLading = nftHashes[_nftId];
+    //   return abi.decode(_hashedBillOfLading, (string));
+    // }

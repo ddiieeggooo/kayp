@@ -15,58 +15,46 @@ contract Kayp is ERC721, Ownable {
     uint public nftId;
     uint public BillOfLadingID;
     uint public tripID;
-    uint public dateOfIssue;
-    bytes32 public hashedBillOfLading;
 
-    mapping(uint => bytes32) private nftHashes;
-    mapping(uint => BillOfLading) private billOfLadings;
+    mapping (uint => uint) public nftIDtoBillOfLadingID;
 
-/// @notice Structure of a Bill of Lading with all the necessary informations
-    struct BillOfLading {
+    BillOfLadingUints[9] arrayOfBLUints;
+    BillOfLadingStrings[7] arrayOfBLStrings;
+
+/// @notice Structure of uints of a Bill of Lading
+    struct BillOfLadingUints {
         uint billOfLadingID;
         uint tripID;
-        string consignor;
-        string oceanVessel;
-        string portOfLoading;
-        string portOfDischarge;
         uint HScode;
         uint numberOfPackages;
-        string kindOfPackages;
-        string descriptionOfGoods;
         uint grossWeight;
         uint measurement;
         uint containerCount;
-        bool isCoveredByInsurance;
-        string placeOfIssue;
         uint dateOfIssue;
         uint freightAmount;
     }
 
-/// @notice this function will create a new hash of a Bill of Lading and mint a NFT with it
-    function mintNewBLWithHash(string calldata _consignor, string calldata _oceanVessel, string calldata _portOfLoading, string calldata _portOfDischarge, uint _HScode, uint _numberOfPackages, string calldata _kindOfPackages, string calldata _descriptionOfGoods, uint _grossWeight, uint _measurement, uint _containerCount, bool _isCoveredByInsurance, string calldata _placeOfIssue, uint _dateOfIssue, uint _freightAmount) external {
-      BillOfLading memory billoflading;
-      billoflading.billOfLadingID ++;
-      billoflading.tripID ++;
-      billoflading.consignor = _consignor;
-      billoflading.oceanVessel = _oceanVessel;
-      billoflading.portOfLoading = _portOfLoading;
-      billoflading.portOfDischarge = _portOfDischarge;
-      billoflading.HScode = _HScode;
-      billoflading.numberOfPackages = _numberOfPackages;
-      billoflading.kindOfPackages = _kindOfPackages;
-      billoflading.descriptionOfGoods = _descriptionOfGoods;
-      billoflading.grossWeight = _grossWeight;
-      billoflading.measurement = _measurement;
-      billoflading.containerCount = _containerCount;
-      billoflading.isCoveredByInsurance = _isCoveredByInsurance;
-      billoflading.placeOfIssue = _placeOfIssue;
-      billoflading.dateOfIssue = _dateOfIssue;
-      billoflading.freightAmount = _freightAmount;
-      hashedBillOfLading = keccak256(abi.encode(billoflading));
-      nftHashes[nftId] = hashedBillOfLading;
-      _safeMint(msg.sender, nftId);
+/// @notice Structure of strings of a Bill of Lading
+    struct BillOfLadingStrings {
+        string consignor;
+        string oceanVessel;
+        string portOfLoading;
+        string portOfDischarge;
+        string kindOfPackages;
+        string descriptionOfGoods;
+        string placeOfIssue;
     }
 
+/// @notice this function will create a new hash of a Bill of Lading and mint a NFT with it
+    function mintNewBLToken(uint[9] calldata _arrayOfBLUints, string[7] calldata _arrayOfBLStrings) external {
+      BillOfLadingUints memory billofladinguints;
+      BillOfLadingStrings memory billofladingstrings;
+      billofladinguints = BillOfLadingUints(_arrayOfBLUints[0], _arrayOfBLUints[1], _arrayOfBLUints[2], _arrayOfBLUints[3], _arrayOfBLUints[4], _arrayOfBLUints[5], _arrayOfBLUints[6], _arrayOfBLUints[7], _arrayOfBLUints[8]);
+      billofladingstrings = BillOfLadingStrings(_arrayOfBLStrings[0], _arrayOfBLStrings[1], _arrayOfBLStrings[2], _arrayOfBLStrings[3], _arrayOfBLStrings[4], _arrayOfBLStrings[5], _arrayOfBLStrings[6]);
+      nftId ++;
+      nftIDtoBillOfLadingID[nftId] = billofladinguints.billOfLadingID;
+      _safeMint(msg.sender, nftId);
+    }
 
 /// @notice this function inherit _transfer from ERC721 to transfer a NFT from an address to another
 /// @param from the address of the sender, to the address of the receiver, tokenId the id of the NFT
@@ -74,15 +62,9 @@ contract Kayp is ERC721, Ownable {
       _transfer(from, to, tokenId);
     }
 
-/// @notice this function will retrieve the Bill of Lading datas from the hash bounded to a given NFT
-    // function retrieveBLFromNFT (uint _nftId) external returns(string memory) {
-    //   bytes32 _hashedBillOfLading = nftHashes[_nftId];
-    //   return abi.decode(_hashedBillOfLading, (string));
-    // }
-
 /// @notice this function is a security measure to avoid locking funds in the smart contract
     function withdraw (uint _amount, address receiver) external onlyOwner {
-      (bool received, ) = msg.sender.call{value: _amount}("");
+      (bool received, ) = receiver.call{value: _amount}("");
       require(received, "An error occured");
     }
 
@@ -90,6 +72,7 @@ contract Kayp is ERC721, Ownable {
     fallback() external payable {
     }
 
+/// @notice this function is a receive in case of funds received on the smart contract
     receive() external payable {}
 
 }
