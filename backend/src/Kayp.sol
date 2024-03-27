@@ -29,11 +29,6 @@ contract Kayp is ERC721, Ownable{
       string freightAmount;
   }
 
-
-  uint256 public BLandNFTid;
-
-  StructDeBL public instanceDeBL;
-
   StructDeBL[] public arrayDeTousLesBL;
 
   mapping (uint BLandNFTid => StructDeBL) public linkBetweenIdandDataOfBL;
