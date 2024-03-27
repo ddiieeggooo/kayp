@@ -1,64 +1,56 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.24;
 
-// import "forge-std/Test.sol";
-// import "../src/Kayp.sol";
-// import "forge-std/console.sol";
+import "forge-std/Test.sol";
+import "../src/Kayp.sol";
+import "forge-std/console.sol";
 
-// contract KaypTest is Test {
+contract KaypTest is Test {
 
-//     address owner = makeAddr('User0');
-//     address addr1 = makeAddr('User1');
-//     address addr2 = makeAddr('User2');
+  address owner = makeAddr('User0');
+  address addr1 = makeAddr('User1');
+  address addr2 = makeAddr('User2');
 
-//     Kayp public _Kayp;
+  Kayp public _Kayp;
 
-//     event HashOfDataCreated(bytes32 hashedBillOfLading);
+  event BLTokenMinted(uint256 indexed BLandNFTid, address indexed owner);
 
+  uint256 public BLandNFTid;
 
-//     uint public nftId;
-//     uint public BillOfLadingID;
-//     uint public tripID;
-//     uint public dateOfIssue;
-//     bytes32 public hashedBillOfLading;
+  StructDeBL[] public arrayDeTousLesBL;
 
-//     mapping(uint => bytes32) private nftHashes;
+  mapping (uint BLandNFTid => StructDeBL) public linkBetweenIdandDataOfBL;
 
-//     struct BillOfLading {
-//         uint billOfLadingID;
-//         uint tripID;
-//         string consignor;
-//         string oceanVessel;
-//         string portOfLoading;
-//         string portOfDischarge;
-//         uint HScode;
-//         uint numberOfPackages;
-//         string kindOfPackages;
-//         string descriptionOfGoods;
-//         uint grossWeight;
-//         uint measurement;
-//         uint containerCount;
-//         bool isCoveredByInsurance;
-//         string placeOfIssue;
-//         uint dateOfIssue;
-//         uint freightAmount;
-//     }
+  struct StructDeBL {
+      string _BLandNFTid;
+      string tripID;
+      string consignor;
+      string oceanVessel;
+      string consignee;
+      string portOfLoading;
+      string portOfDischarge;
+      string HScode;
+      string numberOfPackages;
+      string kindOfPackages;
+      string descriptionOfGoods;
+      string grossWeightAndMeasurement;
+      string containerCount;
+      string placeAndDateOfIssue;
+      string freightAmount;
+  }
 
-//     function setUp() public {
-//         vm.prank(owner);
-//         _Kayp = new Kayp();
-//     }
+    function setUp() public {
+        vm.prank(owner);
+        _Kayp = new Kayp();
+    }
 
 
-//     function test_expectEmit_HashOfDataCreated() public {
-//         BillOfLading memory billoflading;
-//         billoflading.billOfLadingID ++;
-//         billoflading.tripID ++;
-//         hashedBillOfLading = keccak256(abi.encode(billoflading));
-//         emit _Kayp.HashOfDataCreated(billoflading);
-//         _Kayp.mintNewBLWithHash("consignorTest", "oceanVesselTest", "portOfLoadingTest", "portOfDischargeTest", 1234, 10, "kindOfPackagesTest", "descriptionOfGoodsTest", 100, 100, 10, true, "placeOfIssueTest", 24032024, 1000);
-//         }
-// }
+    function test_expectEmit_BLTokenMinted() public {
+      uint256 _BLandNFTid = arrayDeTousLesBL.length;
+      string[15] memory _arrayDeDatasDuFront = [Strings.toString(_BLandNFTid), "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"];
+      emit BLTokenMinted(_BLandNFTid, owner);
+      _Kayp.mintBLToken(_arrayDeDatasDuFront);
+    }
 
 
-//       //  assertEq(hashedBillOfLading, keccak256(abi.encode(billoflading)));
+}
