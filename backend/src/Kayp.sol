@@ -49,7 +49,7 @@ provided by the user in the frontend interface */
     uint256 BLandNFTid = arrayDeTousLesBL.length;
 
     StructDeBL memory _instanceDeBL = StructDeBL({
-      BLandNFTid: Strings.toString(_BLandNFTid),
+      BLandNFTid: Strings.toString(BLandNFTid),
       tripID: _arrayDeDatasDuFront[1],
       oceanVessel: _arrayDeDatasDuFront[2],
       portOfLoadingAndConsignor: _arrayDeDatasDuFront[3],
