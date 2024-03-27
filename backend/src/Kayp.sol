@@ -18,17 +18,16 @@ contract Kayp is ERC721, Ownable{
       string tripID;
       string consignor;
       string oceanVessel;
+      string consignee;
       string portOfLoading;
       string portOfDischarge;
       string HScode;
       string numberOfPackages;
       string kindOfPackages;
       string descriptionOfGoods;
-      string grossWeight;
-      string measurement;
+      string grossWeightAndMeasurement;
       string containerCount;
-      string placeOfIssue;
-      string dateOfIssue;
+      string placeAndDateOfIssue;
       string freightAmount;
   }
 
@@ -52,18 +51,17 @@ contract Kayp is ERC721, Ownable{
       tripID: _arrayDeDatasDuFront[1],
       consignor: _arrayDeDatasDuFront[2],
       oceanVessel: _arrayDeDatasDuFront[3],
-      portOfLoading: _arrayDeDatasDuFront[4],
-      portOfDischarge: _arrayDeDatasDuFront[5],
-      HScode: _arrayDeDatasDuFront[6],
-      numberOfPackages: _arrayDeDatasDuFront[7],
-      kindOfPackages: _arrayDeDatasDuFront[8],
-      descriptionOfGoods: _arrayDeDatasDuFront[9],
-      grossWeight: _arrayDeDatasDuFront[10],
-      measurement: _arrayDeDatasDuFront[11],
+      consignee: _arrayDeDatasDuFront[4],
+      portOfLoading: _arrayDeDatasDuFront[5],
+      portOfDischarge: _arrayDeDatasDuFront[6],
+      HScode: _arrayDeDatasDuFront[7],
+      numberOfPackages: _arrayDeDatasDuFront[8],
+      kindOfPackages: _arrayDeDatasDuFront[9],
+      descriptionOfGoods: _arrayDeDatasDuFront[10],
+      grossWeightAndMeasurement: _arrayDeDatasDuFront[11],
       containerCount: _arrayDeDatasDuFront[12],
-      placeOfIssue: _arrayDeDatasDuFront[13],
-      dateOfIssue: _arrayDeDatasDuFront[14],
-      freightAmount: _arrayDeDatasDuFront[15]
+      placeAndDateOfIssue: _arrayDeDatasDuFront[13],
+      freightAmount: _arrayDeDatasDuFront[14]
     });
 
     arrayDeTousLesBL.push(_instanceDeBL);
