@@ -13,18 +13,15 @@ contract Kayp is ERC721, Ownable{
 
   constructor() ERC721("KAYPtoken", "KAYP") Ownable(msg.sender) { }
 
-/// @dev Avoid struct with more than 15 elements to avoid stack too deep error
+/// @dev Avoid struct with too much elements to avoid stack too deep error
   struct StructDeBL {
       string _BLandNFTid;
       string tripID;
-      string consignor;
       string oceanVessel;
-      string consignee;
-      string portOfLoading;
-      string portOfDischarge;
+      string portOfLoadingAndConsignor;
+      string portOfDischargeAndConsignee;
       string HScode;
-      string numberOfPackages;
-      string kindOfPackages;
+      string numberAndKindOfPackages;
       string descriptionOfGoods;
       string grossWeightAndMeasurement;
       string containerCount;
@@ -48,10 +45,10 @@ contract Kayp is ERC721, Ownable{
 /// @notice mintBLToken is a function to mint a NFT and bound his Id to a Bill of Lading and his data
 /** @param _arrayDeDatasDuFront is an array of strings containing all the data of the Bill of Lading
 provided by the user in the frontend interface */
-  function mintBLToken(string[15] memory _arrayDeDatasDuFront) external {
+  function mintBLToken(string[12] memory _arrayDeDatasDuFront) external {
 
 /// @notice avoid incomplete Bill of Lading
-    require(_arrayDeDatasDuFront.length >= 15, "Input array must contain at least 15 elements.");
+    require(_arrayDeDatasDuFront.length >= 12, "Input array must contain at least 15 elements.");
 
 /// @notice Id is dynamically generated
     uint256 _BLandNFTid = arrayDeTousLesBL.length;
@@ -59,19 +56,16 @@ provided by the user in the frontend interface */
     StructDeBL memory _instanceDeBL = StructDeBL({
       _BLandNFTid: Strings.toString(_BLandNFTid),
       tripID: _arrayDeDatasDuFront[1],
-      consignor: _arrayDeDatasDuFront[2],
-      oceanVessel: _arrayDeDatasDuFront[3],
-      consignee: _arrayDeDatasDuFront[4],
-      portOfLoading: _arrayDeDatasDuFront[5],
-      portOfDischarge: _arrayDeDatasDuFront[6],
-      HScode: _arrayDeDatasDuFront[7],
-      numberOfPackages: _arrayDeDatasDuFront[8],
-      kindOfPackages: _arrayDeDatasDuFront[9],
-      descriptionOfGoods: _arrayDeDatasDuFront[10],
-      grossWeightAndMeasurement: _arrayDeDatasDuFront[11],
-      containerCount: _arrayDeDatasDuFront[12],
-      placeAndDateOfIssue: _arrayDeDatasDuFront[13],
-      freightAmount: _arrayDeDatasDuFront[14]
+      oceanVessel: _arrayDeDatasDuFront[2],
+      portOfLoadingAndConsignor: _arrayDeDatasDuFront[3],
+      portOfDischargeAndConsignee: _arrayDeDatasDuFront[4],
+      HScode: _arrayDeDatasDuFront[5],
+      numberAndKindOfPackages: _arrayDeDatasDuFront[6],
+      descriptionOfGoods: _arrayDeDatasDuFront[7],
+      grossWeightAndMeasurement: _arrayDeDatasDuFront[8],
+      containerCount: _arrayDeDatasDuFront[9],
+      placeAndDateOfIssue: _arrayDeDatasDuFront[10],
+      freightAmount: _arrayDeDatasDuFront[11]
     });
 
 /// @notice Each bill of lading struct is stored in an array, the data is in the BL struct
