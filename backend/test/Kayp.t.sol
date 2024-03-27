@@ -24,14 +24,11 @@ contract KaypTest is Test {
   struct StructDeBL {
       string _BLandNFTid;
       string tripID;
-      string consignor;
       string oceanVessel;
-      string consignee;
-      string portOfLoading;
-      string portOfDischarge;
+      string portOfLoadingAndConsignor;
+      string portOfDischargeAndConsignee;
       string HScode;
-      string numberOfPackages;
-      string kindOfPackages;
+      string numberAndKindOfPackages;
       string descriptionOfGoods;
       string grossWeightAndMeasurement;
       string containerCount;
@@ -48,7 +45,7 @@ contract KaypTest is Test {
     function test_expectEmit_BLTokenMinted() public {
       vm.prank(addr1);
       uint256 _BLandNFTid = arrayDeTousLesBL.length;
-      string[15] memory _arrayDeDatasDuFront = [Strings.toString(_BLandNFTid), "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"];
+      string[12] memory _arrayDeDatasDuFront = [Strings.toString(_BLandNFTid), "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
       emit BLTokenMinted(_BLandNFTid, addr1);
       _Kayp.mintBLToken(_arrayDeDatasDuFront);
     }
