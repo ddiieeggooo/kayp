@@ -15,7 +15,7 @@ contract Kayp is ERC721, Ownable{
 
 /// @dev Avoid struct with too much elements to avoid stack too deep error
   struct StructDeBL {
-      string _BLandNFTid;
+      string BLandNFTid;
       string tripID;
       string oceanVessel;
       string portOfLoadingAndConsignor;
@@ -31,7 +31,7 @@ contract Kayp is ERC721, Ownable{
 
   StructDeBL[] public arrayDeTousLesBL;
 
-  mapping (uint BLandNFTid => StructDeBL) public linkBetweenIdandDataOfBL;
+  mapping (uint256 BLandNFTid => StructDeBL) public linkBetweenIdandDataOfBL;
 
 /// @notice BLTokenMinted is an event to log the minting of a NFT
 /// @param BLandNFTid is the id of the NFT and the Bill of Lading, owner is the address of the user who minted the NFT
@@ -46,10 +46,10 @@ provided by the user in the frontend interface */
     require(_arrayDeDatasDuFront.length >= 12, "Input array must contain at least 15 elements.");
 
 /// @notice Id is dynamically generated
-    uint256 _BLandNFTid = arrayDeTousLesBL.length;
+    uint256 BLandNFTid = arrayDeTousLesBL.length;
 
     StructDeBL memory _instanceDeBL = StructDeBL({
-      _BLandNFTid: Strings.toString(_BLandNFTid),
+      BLandNFTid: Strings.toString(_BLandNFTid),
       tripID: _arrayDeDatasDuFront[1],
       oceanVessel: _arrayDeDatasDuFront[2],
       portOfLoadingAndConsignor: _arrayDeDatasDuFront[3],
@@ -67,14 +67,14 @@ provided by the user in the frontend interface */
     arrayDeTousLesBL.push(_instanceDeBL);
 
 /// @notice Each Id is bounded to a Bill of Lading struct
-    linkBetweenIdandDataOfBL[_BLandNFTid] = _instanceDeBL;
+    linkBetweenIdandDataOfBL[BLandNFTid] = _instanceDeBL;
 
 /// @notice The NFT is minted with the same Id of the Bill of Lading
 /// @dev the function _safemint is inherited from the ERC721 standard
-    _safeMint(msg.sender, _BLandNFTid);
+    _safeMint(msg.sender, BLandNFTid);
 
 /// @notice The event is emitted with an indexed Id in order to retrieve data more easily
-    emit BLTokenMinted(_BLandNFTid, msg.sender);
+    emit BLTokenMinted(BLandNFTid, msg.sender);
   }
 
 }
