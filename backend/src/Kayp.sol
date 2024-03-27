@@ -13,6 +13,7 @@ contract Kayp is ERC721, Ownable{
 
   constructor() ERC721("KAYPtoken", "KAYP") Ownable(msg.sender) { }
 
+/// @dev Avoid struct with more than 15 elements to avoid stack too deep error
   struct StructDeBL {
       string _BLandNFTid;
       string tripID;
@@ -40,7 +41,9 @@ contract Kayp is ERC721, Ownable{
 
   mapping (uint BLandNFTid => StructDeBL) public linkBetweenIdandDataOfBL;
 
-
+/// @notice mintBLToken is a function to mint a NFT and bound his Id to a Bill of Lading and his data
+/** @param _arrayDeDatasDuFront is an array of strings containing all the data of the Bill of Lading
+provided by the user in the frontend interface */
   function mintBLToken(string[] memory _arrayDeDatasDuFront) external {
 
     require(_arrayDeDatasDuFront.length >= 16, "Input array must contain at least 16 elements.");
