@@ -13,14 +13,6 @@ const Kayp = () => {
   const { address } = useAccount();
   const [events, setEvents] = useState([])
 
-  // On récupère la balance ici
-  // const { data: balanceOfConnectedAddress, error, isPending, refetch } = useReadContract({
-  //   address: contractAddress,
-  //   abi: contractAbi,
-  //   functionName: 'getBalanceOfUser',
-  //   account: address
-  // })
-
   // const getEvents = async() => {
   //   const depositEvents = await publicClient.getLogs({
   //     address: contractAddress,

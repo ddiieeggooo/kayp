@@ -16,8 +16,8 @@ import {
 } from "@tanstack/react-query";
 
 const config = getDefaultConfig({
-    appName: 'My RainbowKit App',
-    projectId: '85684b39125e396845471cb07649ea55',
+    appName: 'Kayp',
+    projectId: 'ef4b51b3ca6536b18ccde7614297e3d7',
     chains: [sepolia],
     ssr: true, // If your dApp uses server side rendering (SSR)
 });
