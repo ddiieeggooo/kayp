@@ -7,13 +7,14 @@ const Layout = ({ children }) => {
   return (
     <Flex
       direction="column"
-      h="100vh"
-      justifyContent="center"
+      minH="100vh" // Ensure the layout takes at least the full height of the viewport
     >
         <Header />
         <Flex
-          grow="1"
+          direction="column" // Adjusted for consistency; remove if not necessary
+          flex="1" // Ensure this takes up available space, pushing Header and Footer to bounds
           p="2rem"
+          overflow="auto" // Adds scroll to the content area if it overflows
         >
             {children}
         </Flex>
