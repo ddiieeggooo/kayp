@@ -8,6 +8,7 @@ hardhat : Un objet qui représente la chaîne Hardhat, utilisée pour le dévelo
 */
 import { createPublicClient, http } from 'viem'
 import { sepolia } from 'viem/chains'
+import sepolia from '@/constants/sepolia'
 
 /*
 La fonction createPublicClient est appelée avec un objet de configuration qui spécifie deux propriétés :
