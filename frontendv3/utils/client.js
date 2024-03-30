@@ -7,9 +7,8 @@ http : Une fonction qui spécifie le mode de transport pour la communication ave
 hardhat : Un objet qui représente la chaîne Hardhat, utilisée pour le développement et le test de contrats intelligents localement avant leur déploiement sur une chaîne publique.
 */
 import { createPublicClient, http } from 'viem'
-import { sepolia } from 'viem/chains'
-import sepolia from '@/constants/sepolia'
-
+// import { sepolia } from 'viem/chains'
+import { sepolia } from '@/utils/sepolia';
 /*
 La fonction createPublicClient est appelée avec un objet de configuration qui spécifie deux propriétés :
 
