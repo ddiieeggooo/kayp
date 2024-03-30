@@ -37,8 +37,8 @@ const MintBLToken = () => {
   ];
 
   const { write: mintBLToken, isLoading: isPending } = useWriteContract({
-    addressOrName: contractAddress,
-    contractInterface: contractAbi,
+    address: contractAddress,
+    abi: contractAbi,
     functionName: 'mintBLToken',
     args: [blDataArray],
     onError(error) {
@@ -69,10 +69,6 @@ const MintBLToken = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    mintBLToken();
-  };
-
   return (
     <Center>
       <Box w="full" maxW="md" pt="20">
@@ -89,7 +85,7 @@ const MintBLToken = () => {
               onChange={handleChange}
             />
           ))}
-          <Button colorScheme="blue" onClick={handleSubmit} isLoading={isPending}>
+          <Button colorScheme="blue" onClick={mintBLToken} isLoading={isPending}>
             {isPending ? "Minting..." : "Mint BL Token"}
           </Button>
         </VStack>
