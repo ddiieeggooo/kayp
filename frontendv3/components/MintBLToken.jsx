@@ -9,8 +9,8 @@ import {
   useToast,
   Center,
 } from "@chakra-ui/react";
-import { useAccount, useWriteContract } from "wagmi";
-import { contractAddress, contractAbi } from "@/constants";
+import { useAccount, useWriteContract,useWaitForTransactionReceipt } from "wagmi";
+import { contractAddress, contractAbi } from "@/constants/index";
 
 const MintBLToken = () => {
   const { address } = useAccount();
@@ -36,11 +36,29 @@ const MintBLToken = () => {
     ...Object.values(blData),
   ];
 
-  const { write: mintBLToken, isLoading: isPending } = useWriteContract({
-    address: contractAddress,
-    abi: contractAbi,
-    functionName: 'mintBLToken',
-    args: [blDataArray],
+  const { data: hash, isPending, writeContract } = useWriteContract({
+    mutation: {
+      onSuccess: () => {
+        setBlData({
+          tripID: "",
+          oceanVessel: "",
+          portOfLoadingAndConsignor: "",
+          portOfDischargeAndConsignee: "",
+          HScode: "",
+          numberAndKindOfPackages: "",
+          descriptionOfGoods: "",
+          grossWeightAndMeasurement: "",
+          containerCount: "",
+          placeAndDateOfIssue: "",
+          freightAmount: "",
+        });
+        toast({
+          title: "BL Token minted",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      },
     onError(error) {
       toast({
         title: "Error",
@@ -50,15 +68,8 @@ const MintBLToken = () => {
         isClosable: true,
       });
     },
-    onSuccess(data) {
-      toast({
-        title: "Transaction submitted",
-        description: `Transaction hash: ${data.hash}`,
-        status: "info",
-        duration: 9000,
-        isClosable: true,
-      });
-    },
+  }
+
   });
 
   const handleChange = (e) => {
@@ -68,6 +79,21 @@ const MintBLToken = () => {
       [name]: value,
     }));
   };
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+  useWaitForTransactionReceipt({
+    hash,
+  })
+
+  const mintBLToken = async () => {
+    writeContract({
+      address: contractAddress,
+      abi: contractAbi,
+      functionName: 'mintBLToken',
+      args: [blDataArray],
+      account: address,
+    });
+  }
 
   return (
     <Center>
@@ -85,7 +111,7 @@ const MintBLToken = () => {
               onChange={handleChange}
             />
           ))}
-          <Button colorScheme="blue" onClick={mintBLToken} isLoading={isPending}>
+          <Button colorScheme="blue" onClick={mintBLToken}>
             {isPending ? "Minting..." : "Mint BL Token"}
           </Button>
         </VStack>
