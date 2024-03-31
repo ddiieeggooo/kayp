@@ -16,16 +16,16 @@ const TransferFrom = () => {
   const { address } = useAccount();
   const toast = useToast();
 
-  const [fromAddress, setFromAddress] = useState('');
-  const [toAddress, setToAddress] = useState('');
   const [tokenId, setTokenId] = useState('');
+  const [toAddress, setToAddress] = useState('');
+
+  const args = [address, toAddress, tokenId];
 
   const { data: hash, isPending, writeContract } = useWriteContract({
     mutation: {
       onSuccess: () => {
         setToAddress('');
         setTokenId('');
-        setFromAddress(useAccount);
         toast({
           title: "BL Token transferred successfully",
           status: "success",
@@ -33,16 +33,16 @@ const TransferFrom = () => {
           isClosable: true,
         });
       },
-    onError(error) {
-      toast({
-        title: "Make sure you own the token and the recipient address is correct.",
-        description: error.message,
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    },
-  }
+      onError(error) {
+        toast({
+          title: "Make sure you own the token and the recipient address is correct.",
+          description: error.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      },
+    }
 
   });
 
@@ -56,13 +56,10 @@ const TransferFrom = () => {
       address: contractAddress,
       abi: contractAbi,
       functionName: 'transferFrom',
-      fromAddress: useAccount,
-      args: [args],
+      args: args,
       account: address,
     });
   }
-
-  const args = [fromAddress, toAddress, tokenId];
 
   return (
     <Center>
