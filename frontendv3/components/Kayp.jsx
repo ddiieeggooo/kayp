@@ -8,6 +8,7 @@ import { publicClient } from '@/utils/client'
 import { parseAbiItem } from 'viem'
 import MintBLToken from './MintBLToken'
 import TransferFrom from './TransferFrom'
+import RetrieveBLFromId from './RetrieveBLFromId'
 
 const Kayp = () => {
 
@@ -19,6 +20,8 @@ const Kayp = () => {
       <MintBLToken/>
       <h2>Transfer the ownership of your tokenazid Bill of Lading</h2>
       <TransferFrom/>
+      <h2>Retrieve your Bill of Lading from your token ID</h2>
+      <RetrieveBLFromId/>
     </>
   )
 }
