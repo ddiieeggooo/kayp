@@ -30,21 +30,45 @@ const RetrieveBLFromId = () => {
           setTuple(readTuple);
       }
 
+      function formatKey(key) {
+        const replacements = {
+          'BLandNFTid': 'BL and NFT ID',
+          'HScode': 'HS code',
+        };
+        if (replacements[key]) {
+          return replacements[key];
+        }
+        key = key.replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+                 .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
+        const words = key.split(/\s+/);
+        return words.map((word, index) => {
+          if (index === 0) {
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+          }
+          if (word === 'ID') {
+            return word;
+          }
+          return word.toLowerCase();
+        }).join(' ');
+      }
+
       return (
         <>
           <Box mb={4}>
+            <Heading as="h2" size="xl" mt="1rem" textAlign="center">
+              Retrieve your Bill of Lading
+            </Heading>
             <Input
               placeholder="Enter Bill of lading Id"
               value={tokenId}
               onChange={(e) => setTokenId(e.target.value)}
             />
             <Button onClick={handleReadTupleClick}>Search Bill of Lading</Button>
-          </Box>
-          {tuple && (
+            </Box>
+            {tuple && (
             <Box>
-              {/* Dynamically generate Text components for each tuple entry */}
               {Object.entries(tuple).map(([key, value]) => (
-                <Text key={key}>{`${key}: ${value}`}</Text>
+                <Text key={key}>{`${formatKey(key)}: ${value}`}</Text>
               ))}
             </Box>
           )}
