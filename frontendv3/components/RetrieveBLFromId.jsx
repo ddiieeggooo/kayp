@@ -1,54 +1,56 @@
+'use client'
 import { publicClient } from '@/utils/client';
 import { contractAddress, contractAbi } from "@/constants/index";
 import { useAccount, useReadContract } from 'wagmi';
 import { useState } from 'react';
+import {
+  Heading,
+  Box,
+  Button,
+  Input,
+  VStack,
+  useToast,
+  Center,
+  Text,
+} from "@chakra-ui/react";
 
-const SearchVoter = () => {
+const RetrieveBLFromId = () => {
   const { address } = useAccount();
   const [tokenId, setTokenId] = useState('');
+  const [tuple, setTuple] = useState('');
 
   const handleReadTupleClick = async () => {
           const readTuple = await publicClient.readContract({
               address: contractAddress,
               abi: contractAbi,
-              functionName: "getVoter",
+              functionName: "retrieveBLFromId",
               account: address,
               args: [tokenId]
           });
+          setTuple(readTuple);
       }
-  };
 
-  return (
-      <>
+      return (
+        <>
           <Box mb={4}>
-              <Input
-                  placeholder="Enter Bl Id"
-                  value={tokenId}
-                  onChange={(e) => setTokenId(e.target.value)}
-              />
-              <Button
-                  onClick={handleReadTupleClick}
-                  loadingText="Searching..."
-              >
-                  Search Bill of Lading
-              </Button>
+            <Input
+              placeholder="Enter Bill of lading Id"
+              value={tokenId}
+              onChange={(e) => setTokenId(e.target.value)}
+            />
+            <Button onClick={handleReadTupleClick}>Search Bill of Lading</Button>
           </Box>
-          <Box>
-              <Text>Bill of lading Id : </Text>
-              <Text>Trip id : </Text>
-              <Text>Ocean Vessel : </Text>
-              <Text>Port of Loading and consignor = </Text>
-              <Text>Port of discharge and consignee = </Text>
-              <Text>HS code = </Text>
-              <Text>Number and kind of packages : </Text>
-              <Text>Description of goods :</Text>
-              <Text>Gross weight and measurement : </Text>
-              <Text>Container count : </Text>
-              <Text>Place and date of issue </Text>
-              <Text>Freight amount : </Text>
-          </Box>
-      </>
-  );
+          {tuple && (
+            <Box>
+              {/* Dynamically generate Text components for each tuple entry */}
+              {Object.entries(tuple).map(([key, value]) => (
+                <Text key={key}>{`${key}: ${value}`}</Text>
+              ))}
+            </Box>
+          )}
+        </>
+      );
+
 };
 
-export default SearchVoter;
+export default RetrieveBLFromId;
