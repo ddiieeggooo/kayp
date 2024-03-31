@@ -1,73 +1,51 @@
-import React, { useState } from 'react';
-import { useReadContract } from 'wagmi';
+'use client'
+import { useState } from 'react';
+import { useReadContract, useAccount } from 'wagmi';
+import { readContract } from '@wagmi/core'
+import { UseReadContractParameters } from 'wagmi';
 import { contractAbi, contractAddress } from '@/constants';
-import { Box, Button, Input, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Input, Text, VStack, useToast } from '@chakra-ui/react';
+
+const { data: tupleOfData} = useReadContract({
+  address: contractAddress,
+  abi: contractAbi,
+  functionName: 'retrieveBLFromId',
+  args: [tokenId],
+  account: address
+})
 
 const RetrieveBLFromId = () => {
+  const { address } = useAccount();
+
   const [tokenId, setTokenId] = useState('');
-  const [blData, setBlData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const retrieveBLData = async () => {
-    setIsLoading(true);
-    setError('');
-
-    // Assuming useContractRead is configured to trigger manually rather than on args change
-    const { data, error } = useReadContract({
-      addressOrName: contractAddress,
-      contractInterface: contractAbi,
-      functionName: 'retrieveBLFromId',
-      args: [tokenId],
-    });
-
-    if (error) {
-      setError('Failed to retrieve data. Make sure the token exists.');
-      setIsLoading(false);
-      return;
-    }
-
-    if (data) {
-      // Destructure the tuple into corresponding fields of StructDeBL
-      const [
-        BLandNFTid, tripID, oceanVessel, portOfLoadingAndConsignor,
-        portOfDischargeAndConsignee, HScode, numberAndKindOfPackages,
-        descriptionOfGoods, grossWeightAndMeasurement, containerCount,
-        placeAndDateOfIssue, freightAmount
-      ] = data;
-
-      // Create an object with the data structured as keys
-      const blObject = {
-        BLandNFTid, tripID, oceanVessel, portOfLoadingAndConsignor,
-        portOfDischargeAndConsignee, HScode, numberAndKindOfPackages,
-        descriptionOfGoods, grossWeightAndMeasurement, containerCount,
-        placeAndDateOfIssue, freightAmount
-      };
-
-      setBlData(blObject);
-      setIsLoading(false);
-    }
-  };
 
   return (
     <VStack spacing={4}>
       <Input
-        placeholder="Enter Token ID"
+        placeholder="Enter your Token ID in order to retrieve your Bill of lading"
         value={tokenId}
         onChange={(e) => setTokenId(e.target.value)}
       />
-      <Button onClick={retrieveBLData} isLoading={isLoading}>
+      <Button onClick={retrieveBLFromId}>
         Retrieve Bill of Lading
       </Button>
-      {error && <Text>{error}</Text>}
-      {blData && (
         <Box>
-          {/* Iterate over the object keys and values to display them */}
-          {Object.entries(blData).map(([key, value]) => (
-            <Text key={key}><strong>{key}:</strong> {value}</Text>
-          ))}
+          <Text>{tupleOfData}</Text>
+          <Text>{result}</Text>
+
+            {/* <Text>Bill of lading Id : {result[0]}</Text>
+            <Text>Trip id : $TupleOfData[1]</Text>
+            <Text>Ocean Vessel : data[2]</Text>
+            <Text>Port of Loading and consignor = result[3]</Text>
+            <Text>Port of discharge and consignee = result.data[4]</Text>
+            <Text>HS code = {tupleOfData[5]}</Text>
+            <Text>Number and kind of packages : {tupleOfData[6]}</Text>
+            <Text>Description of goods :</Text>
+            <Text>Gross weight and measurement : </Text>
+            <Text>Container count : </Text>
+            <Text>Place and date of issue </Text>
+            <Text>Freight amount : </Text> */}
         </Box>
-      )}
     </VStack>
   );
 };
