@@ -77,4 +77,11 @@ provided by the user in the frontend interface */
     emit BLTokenMinted(BLandNFTid, msg.sender);
   }
 
+/// @notice retrieveBLFromId is a function to retrieve the data of a Bill of Lading from his token Id
+/// @param _BLandNFTid is the Id of the NFT
+    function retrieveBLFromId(uint256 _BLandNFTid) external view returns (StructDeBL memory) {
+    require(_BLandNFTid < arrayDeTousLesBL.length, "This BL does not exist");
+    return linkBetweenIdandDataOfBL[_BLandNFTid];
+  }
+
 }
