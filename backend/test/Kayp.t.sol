@@ -48,5 +48,4 @@ contract KaypTest is Test {
       _Kayp.mintBLToken(_arrayDeDatasDuFront);
     }
 
-
 }
