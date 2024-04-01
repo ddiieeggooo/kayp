@@ -35,8 +35,8 @@ contract KaypTest is Test {
   }
 
     function setUp() public {
-        vm.prank(owner);
-        _Kayp = new Kayp();
+      vm.prank(owner);
+      _Kayp = new Kayp();
     }
 
 
@@ -46,6 +46,30 @@ contract KaypTest is Test {
       string[12] memory _arrayDeDatasDuFront = [Strings.toString(BLandNFTid), "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
       emit BLTokenMinted(BLandNFTid, addr1);
       _Kayp.mintBLToken(_arrayDeDatasDuFront);
+    }
+
+    function test_MintAndRetrieve() public {
+      vm.startPrank(addr1);
+      string[12] memory blData = ["0", "TripID", "OceanVessel", "PortOfLoadingAndConsignor", "PortOfDischargeAndConsignee", "HSCode", "NumberAndKindOfPackages", "DescriptionOfGoods", "GrossWeightAndMeasurement", "ContainerCount", "PlaceAndDateOfIssue", "FreightAmount"];
+      _Kayp.mintBLToken(blData);
+      vm.stopPrank();
+      Kayp.StructDeBL memory bl = _Kayp.retrieveBLFromId(0);
+      assertEq(bl.tripID, "TripID");
+      assertEq(bl.descriptionOfGoods, "DescriptionOfGoods");
+    }
+
+    function testFail_RevertWhen_WrongRetrievalId() public {
+      vm.startPrank(addr1);
+      string[12] memory blData = ["0", "TripID", "OceanVessel", "PortOfLoadingAndConsignor", "PortOfDischargeAndConsignee", "HSCode", "NumberAndKindOfPackages", "DescriptionOfGoods", "GrossWeightAndMeasurement", "ContainerCount", "PlaceAndDateOfIssue", "FreightAmount"];
+      _Kayp.mintBLToken(blData);
+      vm.stopPrank();
+      Kayp.StructDeBL memory bl = _Kayp.retrieveBLFromId(1);
+    }
+
+    function testFuzzMintBLToken(string[12] calldata _blData) public {
+      vm.startPrank(addr1);
+      _Kayp.mintBLToken(_blData);
+      vm.stopPrank();
     }
 
 }
