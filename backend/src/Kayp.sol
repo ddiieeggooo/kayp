@@ -43,7 +43,7 @@ provided by the user in the frontend interface */
   function mintBLToken(string[12] memory _arrayDeDatasDuFront) external {
 
 /// @notice avoid incomplete Bill of Lading
-    require(_arrayDeDatasDuFront.length >= 12, "Input array must contain at least 15 elements.");
+    require(_arrayDeDatasDuFront.length >= 12, "Input array must contain at least 12 elements.");
 
 /// @notice Id is dynamically generated
     uint256 BLandNFTid = arrayDeTousLesBL.length;
