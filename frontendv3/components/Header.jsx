@@ -1,7 +1,6 @@
 "use client"
 import { Flex, Text, Image } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import logo from './logo.jpg'
 
 const Header = () => {
   return (
