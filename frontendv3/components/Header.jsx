@@ -1,6 +1,7 @@
 "use client"
-import { Flex, Text } from '@chakra-ui/react'
+import { Flex, Text, Image } from '@chakra-ui/react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import logo from './logo.jpg'
 
 const Header = () => {
   return (
@@ -9,7 +10,7 @@ const Header = () => {
         alignItems="center"
         p="2rem"
     >
-        <Text>KAYP</Text>
+        <Text fontSize="2xl" fontWeight="bold">KAYP</Text>
         <ConnectButton />
     </Flex>
   )
