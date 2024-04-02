@@ -4,13 +4,12 @@ pragma solidity ^0.8.24;
 import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 import "lib/openzeppelin-contracts/contracts/utils/Strings.sol";
-// import "lib/openzeppelin-contracts/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 /// @title Kayp is a smart contract to create a NFT bounded to a Bill of Lading, wich data are stored in the smart contract
 /// @dev The contract is based on the ERC721 standard provided by OpenZeppelin
 /// @author ddiieeggoo
 
-contract Kayp is ERC721, ERC721Enumerable, Ownable{
+contract Kayp is ERC721, Ownable{
 
   constructor() ERC721("KAYPtoken", "KAYP") Ownable(msg.sender) { }
 
@@ -84,14 +83,5 @@ provided by the user in the frontend interface */
     require(_BLandNFTid < arrayDeTousLesBL.length, "This BL does not exist");
     return linkBetweenIdandDataOfBL[_BLandNFTid];
   }
-
-    function giveAddressBalanceAndTokenId(address _address) external view returns (uint256[] memory) {
-    uint256 balance = balanceOf(_address);
-    uint256[] memory tokenIds = new uint256[](balance);
-    for (uint256 i = 0; i < balance; i++) {
-      tokenIds[i] = tokenOfOwnerByIndex(_address, i);
-    }
-    return tokenIds;
-    }
 
 }
