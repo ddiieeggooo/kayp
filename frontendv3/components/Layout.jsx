@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
         <Flex
           direction="column" // Adjusted for consistency; remove if not necessary
           flex="1" // Ensure this takes up available space, pushing Header and Footer to bounds
-          p="2rem"
+          p="3rem"
           overflow="auto" // Adds scroll to the content area if it overflows
         >
             {children}
