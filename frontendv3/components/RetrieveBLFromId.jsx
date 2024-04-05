@@ -18,6 +18,7 @@ const RetrieveBLFromId = () => {
   const { address } = useAccount();
   const [tokenId, setTokenId] = useState('');
   const [tuple, setTuple] = useState('');
+  const toast = useToast();
 
   const handleReadTupleClick = async () => {
           const readTuple = await publicClient.readContract({
@@ -27,8 +28,18 @@ const RetrieveBLFromId = () => {
               account: address,
               args: [tokenId]
           });
+      if (readTuple) {
           setTuple(readTuple);
       }
+      else {
+        toast({
+          title: "No Bill of Lading found",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+  }
 
       function formatKey(key) {
         const replacements = {
