@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Heading,
   Box,
@@ -51,6 +51,18 @@ const TransferFrom = () => {
     hash,
   })
 
+  useEffect(() => {
+    if(isConfirmed) {
+        fetchEvents()
+        toast({
+            title: "Le Bill of lading a bien été transféré",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+        });
+    }
+}, [isConfirmed])
+
   const transferFrom = async () => {
     writeContract({
       address: contractAddress,
@@ -79,7 +91,7 @@ const TransferFrom = () => {
               onChange={(e) => setToAddress(e.target.value)}
             />
           <Button colorScheme="purple" onClick={transferFrom}>
-            {isPending ? "Trasnfering..." : "Transfer BL Token"}
+            {isPending ? "Transfering..." : "Transfer BL Token"}
           </Button>
         </VStack>
       </Box>

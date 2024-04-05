@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Heading,
   Box,
@@ -53,7 +53,7 @@ const MintBLToken = () => {
           freightAmount: "",
         });
         toast({
-          title: "BL Token minted",
+          title: "Data submitted successfully, minting BL Token...",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -84,6 +84,18 @@ const MintBLToken = () => {
   useWaitForTransactionReceipt({
     hash,
   })
+
+  useEffect(() => {
+    if(isConfirmed) {
+        fetchEvents()
+        toast({
+            title: "Le Bill of lading a bien été minté",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+        });
+    }
+}, [isConfirmed])
 
   const mintBLToken = async () => {
     writeContract({

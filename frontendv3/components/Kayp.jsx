@@ -13,7 +13,6 @@ const Kayp = () => {
   const { address } = useAccount();
   const [ownedTokenIds, setOwnedTokenIds] = useState([]);
 
-  useEffect(() => {
     const fetchEvents = async () => {
       const mintEvents = await publicClient.getLogs({
         address: contractAddress,
@@ -29,21 +28,24 @@ const Kayp = () => {
     setOwnedTokenIds(filteredTokenIds);
   };
     fetchEvents();
-  }, [address]); // Dependency array includes address to refetch when account changes
+
+  useEffect(() => {
+    fetchEvents();
+  }, [address, fetchEvents]);
 
   return (
     <>
       <Text>
         {ownedTokenIds.length > 0 ? (
-          <p>Your addrress {address} owns token IDs: {ownedTokenIds.join(', ')}</p>
+          <p>Your address {address} owns token IDs: {ownedTokenIds.join(', ')}</p>
         ) : (
-          <p>Your addrress {address} owns no tokens.</p>
+          <p>Your address {address} owns no tokens.</p>
         )}
       </Text>
       <h2>Create your tokenized Bill of Lading by providing your informations</h2>
-      <MintBLToken/>
+      <MintBLToken fetchEvents={fetchEvents}/>
       <h2>Transfer the ownership of your tokenized Bill of Lading</h2>
-      <TransferFrom/>
+      <TransferFrom fetchEvents={fetchEvents}/>
       <h2>Retrieve your Bill of Lading from your token ID</h2>
       <RetrieveBLFromId/>
     </>

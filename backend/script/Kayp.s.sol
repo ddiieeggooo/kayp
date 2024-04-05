@@ -5,8 +5,8 @@ import {Script, console} from "forge-std/Script.sol";
 import { Kayp } from '../src/Kayp.sol';
 
 
+
 contract KaypScript is Script {
-    function setUp() public {}
 
     function run() public {
       uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
