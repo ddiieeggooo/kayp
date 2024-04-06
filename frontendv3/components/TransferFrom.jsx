@@ -51,18 +51,6 @@ const TransferFrom = () => {
     hash,
   })
 
-  useEffect(() => {
-    if(isConfirmed) {
-        fetchEvents()
-        toast({
-            title: "Le Bill of lading a bien été transféré",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-        });
-    }
-}, [isConfirmed])
-
   const transferFrom = async () => {
     writeContract({
       address: contractAddress,

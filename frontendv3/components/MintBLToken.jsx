@@ -85,18 +85,6 @@ const MintBLToken = () => {
     hash,
   })
 
-  useEffect(() => {
-    if(isConfirmed) {
-        fetchEvents()
-        toast({
-            title: "Le Bill of lading a bien été minté",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-        });
-    }
-}, [isConfirmed])
-
   const mintBLToken = async () => {
     writeContract({
       address: contractAddress,
