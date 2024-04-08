@@ -33,3 +33,16 @@ Copilot
 Test our Dapp !
 
 Follow this link : [kayp.vercel.app](https://kayp.vercel.app/)
+
+
+
+
+standars security issues answered :
+
+reetrency : The smart contract does not handle any eth
+
+DOS unexpected error : The smart contract does not handle any eth
+
+DOS gas limit : There is no computation in the elements of the array of every Bill of ladings, only the .length of the array is called, so the gas limit attack is theorically impossible.
+
+DOS force feeding : The smart contract wille never trigger a require on his balance
